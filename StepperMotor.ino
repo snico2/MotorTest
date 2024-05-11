@@ -1,11 +1,16 @@
-// ----------------------------------------
-// Simple Stepper Motor Test
-// v 0.02
-// 08/05/2024
-// ----------------------------------------
+/******************************************************************************************
+ *  File:           StepperMotor.ino
+ *  Author:         Nicola Sellitto     nicosellitto@yahoo.it
+ *  Version:        0.05
+ *  Date:           11 may 2024
+ *  Description:    Test Unipola & Bipolar stepper motor
+ *  Note:           Use a serial connection to 115200 and select menu options
+ *****************************************************************************************/
 
+#include <math.h>
 #include <Arduino.h>
 #include "StepperMotor.h"
+
 
  uint8_t PinA1 = 255;
  uint8_t PinB1 = 255;
@@ -209,7 +214,8 @@ uint32_t nSteps;
     	Serial.println("\n ABORT - Motor is alread running \n");
         return;
     }
-    nSteps = (StepsRevolution*nGradees)/360;   
+
+    nSteps = ceil((float) (StepsRevolution*nGradees)/360);    
     moveSteps(nSteps);
 }
 
@@ -538,9 +544,9 @@ uint32_t value;
 	  			    MenuState = STATE_WAIT_USER_INPUT;
                     return;
                 case 'R':
-        			Serial.print("Enter RPM [1, 100]: ");
+        			Serial.print("Enter RPM [1, 1000]: ");
                     ValueMin = 1;
-                    ValueMax = 100;
+                    ValueMax = 1000;
 	  			    MenuState = STATE_WAIT_USER_INPUT;
                     return;
                 case 'S':
@@ -591,7 +597,7 @@ uint32_t value;
 
     switch (MenuState) {
 	    case STATE_DISPLAY_MENU:
-		    displayMenuHeader("MOTOR RUN MOVE");
+		    displayMenuHeader("MOTOR MOVE");
             Serial.println("1) run one step");
             Serial.println("2) run one grade");
             Serial.println("3) run one rotation");
@@ -750,10 +756,10 @@ void showPinWiring() {
     Serial.println("Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards");
     Serial.println("In Full-Step mode:");
     Serial.println(" - steps for revolution: 48 ");
-    Serial.println(" - step delay: 2000 us");
+    Serial.println(" - step delay: 8000 us");
     Serial.println("In Half-Step mode:");
     Serial.println(" - steps for revolution: 96 ");
-    Serial.println(" - step delay: 1000 us");
+    Serial.println(" - step delay: 4000 us");
     Serial.println();
     Serial.println(" MCU    BOARD   L923D    BOARD   BP485725   COILS");
     Serial.println("-----------------------------------------------");

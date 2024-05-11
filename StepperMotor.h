@@ -10,8 +10,8 @@
 // --------------------------------------------------------------------------------------
 
 #define FIRMWARE_NAME                   "Motor Stepper Test"
-#define FIRMWARE_VERSION                "v0.04"
-#define FIRMWARE_DATE                   "10/05/2024"
+#define FIRMWARE_VERSION                "v0.05"
+#define FIRMWARE_DATE                   "11/05/2024"
 #define FIRMWARE_AUTHOR                 "nicola sellitto"
 #define FIRMWARE_EMAIL                  "nicosellitto@yahoo.it"
 
