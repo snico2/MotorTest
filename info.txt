@@ -1,62 +1,136 @@
+ULN2003		Darlington Transistor Arrays
+L293D		Half-H Drivers
+A4988		Microstep	
+DRV8833		Microstep	
+
+
+
 
  Test unipolar & bipolar stepper motor, firmware for ESP8266/ESP32
 
  Use a serial connection to 115200 and select menu options
 
- From Primary Menu you can Configure & Move the motor:
- ===========================================
-    PRIMARY MENU
- ===========================================
- C) Configure motor
- M) Move motor
- P) show Pin wiring
- V) View configuration
- A) About
- Q) Quit
+From Primary Menu you can Configure & Move the motor:
+===========================================
+   PRIMARY MENU
+===========================================
+C) Configure motor
+L) Load motor config
+S) Save motor config
+M) Move motor
+P) show Pin wiring
+V) View configuration
+A) About
+Q) Quit
 
 
- From Configuration Menu you can set motor's attribute:
- ===========================================
-    MOTOR CONFIGURATION
- ===========================================
- 1) set A1 pin
- 2) set B1 pin
- 3) set A2 pin
- 4) set B2 pin
- A) set Anti-clockwise rotation
- C) set Clockwise rotation
- F) set Full step mode
- H) set Half step mode
- M) set Microstepping mode
- W) set Wave mode
- D) set step Delay
- R) set Rpm
- S) set revolution Steps
- P) show Pin wiring
- V) View configuration
- Q) Quit
+From Configuration Menu you can set motor driver attribute:
+===========================================
+   MOTOR DRIVER
+===========================================
+1) configure DARLINGTON  (ULN2003 like)
+2) configure H-BRIDGE    (L293D like)
+3) configure MICROSTEP   (A4988/DRV8833 like)
+4) active DARLINGTON
+5) active H-BRIDGE
+6) active MICROSTEP
+P) show Pin wiring
+V) View configuration
+Q) Quit
 
 
- From Moving Menu you can init the motor and move step/gradess/rotation:
- ===========================================
-    MOTOR MOVE
- ===========================================
- 1) run one step
- 2) run one grade
- 3) run one rotation
- 4) run number steps
- 5) run number gradees
- 6) run number rotations
- I) Init motor
- S) Stop motor
- V) View config
- Q) Quit
+For Darlington Drive you can:
+===========================================
+   DARLINGTON drive
+===========================================
+1) set A1 pin
+2) set B1 pin
+3) set A2 pin
+4) set B2 pin
+A) set Anti-clockwise rotation
+C) set Clockwise rotation
+F) set Full step sequence
+H) set Half step sequence
+O) set One phase sequence
+D) set step Delay
+R) set Rpm
+S) set Steps revolution
+P) show Pin wiring
+V) View configuration
+Q) Quit
+
+
+For H-Bridge Drive you can:
+===========================================
+   H BRIDGE drive
+===========================================
+1) set A1 pin
+2) set B1 pin
+3) set A2 pin
+4) set B2 pin
+A) set Anti-clockwise rotation
+C) set Clockwise rotation
+F) set Full step sequence
+H) set Half step sequence
+O) set One phase sequence
+D) set step Delay
+R) set Rpm
+S) set Steps revolution
+P) show Pin wiring
+V) View configuration
+Q) Quit
+
+
+For Microstep Drive you can:
+===========================================
+   MICROSTEP drive
+===========================================
+1) define pin
+2) set pin value
+3) set step resolution
+A) set Anti-clockwise rotation
+C) set Clockwise rotation
+D) set step Delay
+E) rEset drive
+U) Un-reset drive
+R) set Rpm
+S) set Steps revolution
+P) show Pin wiring
+V) View configuration
+Q) Quit
+
+
+
+From Moving Menu you can:
+===========================================
+   MOTOR MOVE
+===========================================
+1) move one step
+2) move one grade
+3) move one rotation
+4) move number steps
+5) move number gradees
+6) move number rotations
+7) set  clockwise rotation
+8) set  anti-clockwise rotation
+D) Disable microstep motor
+E) Enable  microstep motor
+L) sLeep   microstep motor
+W) Wakeup  microstep motor
+I) Init motor
+H) set overHead
+R) set Rpm
+S) Stop motor
+V) View config
+Q) Quit
+
+
 
 
  For how to wiring the momtor you can use "show Pin wiring" menu choice.
 
 
-   Unipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
+   UNIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
@@ -71,7 +145,7 @@
                           B
 
 
-   Bipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
+   BIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
@@ -100,7 +174,7 @@
      gpio15   D8      IN1       blue        B2
 
 
-2) Test performed on 28BYJ-48 Unipolar Stepper Motor with L293D and WemosMini ESP8266 boards
+ 2) Test performed on 28BYJ-48 Unipolar Stepper Motor with L293D and WemosMini ESP8266 boards
     Vcc 28BYJ-48 NOT connected
     In Full-Step mode:
         - steps for revolution: 2048
@@ -117,7 +191,7 @@
      gpio15   D8      IN4      B+     blue        B2
 
 
-3) Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards
+ 3) Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards
     In Full-Step mode:
         - steps for revolution: 48
         - step delay: 8000 us
@@ -132,3 +206,37 @@
      gpio14   D5      IN1      A-     brown       A2
      gpio15   D8      IN4      B+     orange      B2
 
+
+
+      BIPOLAR MICROSTEP MOTOR COILS;
+    
+      A+ o----+
+              |   
+              @   
+              @   
+              @   
+              @   
+              |   
+      A- o----+
+                   B+ o---@@@@@@@---o B-
+    
+    
+ 4) Test performed on NEMA 17HE15-1504S bipolar Step Motor with A4988 driver and WemosMini ESP8266 boards
+    In Full-Step mode:
+     - steps for revolution: 200 
+     - step delay: 2000 us
+    
+     MCU    WEMOS   A4988    NEMA17
+    -----------------------------------------------
+    gpio15   D8     enable  
+    gpio13   D7     ms1     
+    gpio12   D6     ms2     
+    gpio14   D5     ms3     
+    gpio16   D0     reset   
+    gpio05   D1     sleep   
+    gpio04   D2     step    
+    gpio00   D3     dir     
+                    B2       A+ 
+                    A2       A- 
+                    A1       B+ 
+                    B1       B- 
