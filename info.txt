@@ -130,7 +130,7 @@ Q) Quit
  For how to wiring the momtor you can use "show Pin wiring" menu choice.
 
 
-   UNIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
+   Unipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
@@ -145,7 +145,7 @@ Q) Quit
                           B
 
 
-   BIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
+   Bipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
@@ -168,13 +168,13 @@ Q) Quit
 
       MCU    WEMOS   ULN2003   28BYJ-48    COILS
      -----------------------------------------------
-     gpio12   D6      IN4       orange      A1
-     gpio13   D7      IN3       yellow      B1
-     gpio14   D5      IN2       pink        A2
-     gpio15   D8      IN1       blue        B2
+     gpio12   D6      IN2       pink        A2
+     gpio16   D0      IN4       orange      A1
+     gpio14   D5      IN3       yellow      B1
+     gpio13   D7      IN1       blue        B2
 
 
- 2) Test performed on 28BYJ-48 Unipolar Stepper Motor with L293D and WemosMini ESP8266 boards
+2) Test performed on 28BYJ-48 Unipolar Stepper Motor with L293D and WemosMini ESP8266 boards
     Vcc 28BYJ-48 NOT connected
     In Full-Step mode:
         - steps for revolution: 2048
@@ -185,13 +185,13 @@ Q) Quit
 
       MCU    BOARD   L923D    BOARD   28BYJ-48   COILS
      -----------------------------------------------
-     gpio12   D6      IN2      A+     orange      A1
-     gpio13   D7      IN3      B-     yellow      B1
-     gpio14   D5      IN1      A-     pink        A2
-     gpio15   D8      IN4      B+     blue        B2
+     gpio12   D6      IN1      A-     pink        A2
+     gpio16   D0      IN2      A+     orange      A1
+     gpio14   D5      IN3      B-     yellow      B1
+     gpio13   D7      IN4      B+     blue        B2
 
 
- 3) Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards
+3) Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards
     In Full-Step mode:
         - steps for revolution: 48
         - step delay: 8000 us
@@ -201,14 +201,14 @@ Q) Quit
 
       MCU    BOARD   L923D    BOARD   BP485725   COILS
      -----------------------------------------------
+     gpio14   D5      IN1      A-     brown       A2
      gpio12   D6      IN2      A+     red         A1
      gpio13   D7      IN3      B-     yellow      B1
-     gpio14   D5      IN1      A-     brown       A2
      gpio15   D8      IN4      B+     orange      B2
 
 
 
-      BIPOLAR MICROSTEP MOTOR COILS;
+      BIPOLAR MICROSTEP MOTOR COILS
     
       A+ o----+
               |   
@@ -219,8 +219,9 @@ Q) Quit
               |   
       A- o----+
                    B+ o---@@@@@@@---o B-
-    
-    
+
+
+
  4) Test performed on NEMA 17HE15-1504S bipolar Step Motor with A4988 driver and WemosMini ESP8266 boards
     In Full-Step mode:
      - steps for revolution: 200 

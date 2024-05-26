@@ -1,8 +1,8 @@
 /******************************************************************************************
  *  File:           StepperMotor.ino
  *  Author:         Nicola Sellitto     nicosellitto@yahoo.it
- *  Version:        0.15
- *  Date:           25 may 2024
+ *  Version:        0.16
+ *  Date:           26 may 2024
  *  Description:    Test Unipola & Bipolar stepper motor
  *  Note:           Use a serial connection to 115200 and select menu options
  *****************************************************************************************/
@@ -899,7 +899,7 @@ char c;
                 case 'S':  configWrite();	       		  break;
                 case 'A':  showAbout();	         		  break;
                 case 'P':  showPinWiring(); 		      break;
-                case 'V':  viewConfig();	    		  break;
+                case 'V':  viewConfig(MotorDriver);		  break;
             }
             return;
     }
@@ -967,7 +967,7 @@ void menuConfigure() {
                     showPinWiring();				    
                     return;
                 case 'V':  
-                    viewConfig();                    
+                    viewConfig(MotorDriver);                    
                     return;
             }
             return;
@@ -1086,7 +1086,7 @@ uint32_t value;
                     showPinWiring();
                     return;
                 case 'V':
-                    viewConfig();
+                    viewConfigStepper();
                     return;
             }
             return;
@@ -1672,7 +1672,7 @@ uint32_t value;
 	  	    		MenuState = STATE_DISPLAY_MENU;
                     return;
                 case 'V':
-                    viewConfig();
+                    viewConfig(MotorDriver);
 	  	    		MenuState = STATE_DISPLAY_MENU;
                     return;
             }
@@ -1751,10 +1751,10 @@ void showPinWiring() {
     Serial.println();
     Serial.println(" MCU    WEMOS   ULN2003   28BYJ-48    COILS");
     Serial.println("-----------------------------------------------");
-    Serial.println("gpio12   D6      IN4       orange      A1");
-    Serial.println("gpio13   D7      IN3       yellow      B1");
-    Serial.println("gpio14   D5      IN2       pink        A2");
-    Serial.println("gpio15   D8      IN1       blue        B2");
+    Serial.println("gpio12   D6      IN2       pink        A2");
+    Serial.println("gpio16   D0      IN4       orange      A1");
+    Serial.println("gpio14   D5      IN3       yellow      B1");
+	Serial.println("gpio13   D7      IN1       blue        B2");   
     Serial.println();
     Serial.println();
     Serial.println("Test performed on 28BYJ-48 Unipolar Stepper Motor with L293D and WemosMini ESP8266 boards");
@@ -1768,10 +1768,10 @@ void showPinWiring() {
     Serial.println();
     Serial.println(" MCU    BOARD   L923D    BOARD   28BYJ-48   COILS");
     Serial.println("-----------------------------------------------");
-    Serial.println("gpio12   D6      IN2      A+     orange      A1");
-    Serial.println("gpio13   D7      IN3      B-     yellow      B1");
-    Serial.println("gpio14   D5      IN1      A-     pink        A2");
-    Serial.println("gpio15   D8      IN4      B+     blue        B2");
+    Serial.println("gpio12   D6      IN1      A-     pink        A2");
+    Serial.println("gpio16   D0      IN2      A+     orange      A1");
+    Serial.println("gpio14   D5      IN3      B-     yellow      B1");
+    Serial.println("gpio13   D7      IN4      B+     blue        B2");   
     Serial.println();
     Serial.println();
     Serial.println("Test performed on BP485725 Bipolar Stepper Motor with L293D and WemosMini ESP8266 boards");
@@ -1842,9 +1842,9 @@ void showAbout() {
 /******************************************************************************************
  * 
  *****************************************************************************************/
-void viewConfig() {
+void viewConfig(uint8_t mDriver) {
 
-    switch (MotorDriver) {
+    switch (mDriver) {
         case NOT_DEFINED:
            	Serial.println();
         	Serial.println("ABORT - no motor is defined");
@@ -1896,7 +1896,7 @@ char pB2[] = "NC ";
 	Serial.println(PrintBuffer);
     sprintf(PrintBuffer, "%20s: %u us", "Step Delay",  MotorStep.stepDelay);
 	Serial.println(PrintBuffer);
-    sprintf(PrintBuffer, "%20s: %u", "MotorStep.rpm",  MotorStep.rpm);
+    sprintf(PrintBuffer, "%20s: %u", "Rpm",  MotorStep.rpm);
 	Serial.println(PrintBuffer);
     sprintf(PrintBuffer, "%20s: %u us", "Rpm Step Delay",  MotorStep.rpmStepDelay/MotorStep.stepResolution);
 	Serial.println(PrintBuffer);

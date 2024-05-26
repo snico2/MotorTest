@@ -11,8 +11,8 @@
 // --------------------------------------------------------------------------------------
 
 #define FIRMWARE_NAME                   "Motor Stepper Test"
-#define FIRMWARE_VERSION                "v0.15"
-#define FIRMWARE_DATE                   "25/05/2024"
+#define FIRMWARE_VERSION                "v0.16"
+#define FIRMWARE_DATE                   "26/05/2024"
 #define FIRMWARE_AUTHOR                 "nicola sellitto"
 #define FIRMWARE_EMAIL                  "nicosellitto@yahoo.it"
 
@@ -200,7 +200,7 @@ uint8_t getValueUnsigned(uint32_t *value, uint32_t min, uint32_t max);
    void showPinWiring(void);
    void stateMachineCheck(void);
    void stateMachineInit(void);
-   void viewConfig(void);
+   void viewConfig(uint8_t mDriver);
    void viewConfigMicrostep(void);
    void viewConfigStepper(void);
    void writeStep(uint8_t p1, uint8_t p2, uint8_t p3, uint8_t p4);
