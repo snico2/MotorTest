@@ -130,7 +130,7 @@ Q) Quit
  For how to wiring the momtor you can use "show Pin wiring" menu choice.
 
 
-   Unipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
+   UNIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
@@ -145,7 +145,7 @@ Q) Quit
                           B
 
 
-   Bipolar Stepper Motor Coils - Step sequence: A1, B1, A2, B2
+   BIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
 
    A2 o----+
            |
