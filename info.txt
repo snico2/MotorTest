@@ -2,21 +2,33 @@ ULN2003		Darlington Transistor Arrays
 L293D		Half-H Drivers
 A4988		Microstep	
 DRV8833		Microstep	
+SG90        Servo
 
 
+Version 0.20 - 31 may 2024
 
+Test Stepper (unipolar & bipolar) and Servo motor, firmware for ESP8266/ESP32
 
- Test unipolar & bipolar stepper motor, firmware for ESP8266/ESP32
+For motor driver you can use:
+- Darlington
+- H-Bridge
+- Microstep
+- Servo
 
- Use a serial connection to 115200 and select menu options
+Firmware Not blocking with timer interrupt
+
+Use a serial connection to 115200 and select menu options
+
 
 From Primary Menu you can Configure & Move the motor:
 ===========================================
    PRIMARY MENU
 ===========================================
 C) Configure motor
-L) Load motor config
-S) Save motor config
+D) Default configuration
+L) Load    configuration
+R) Reset   configuration
+S) Save    configuration
 M) Move motor
 P) show Pin wiring
 V) View configuration
@@ -24,19 +36,23 @@ A) About
 Q) Quit
 
 
+
 From Configuration Menu you can set motor driver attribute:
 ===========================================
    MOTOR DRIVER
 ===========================================
 1) configure DARLINGTON  (ULN2003 like)
-2) configure H-BRIDGE    (L293D like)
-3) configure MICROSTEP   (A4988/DRV8833 like)
-4) active DARLINGTON
-5) active H-BRIDGE
-6) active MICROSTEP
+2) configure H-BRIDGE    (L293D   like)
+3) configure MICROSTEP   (A4988   like)
+4) configure SERVO       (SG90    like)
+5) active DARLINGTON
+6) active H-BRIDGE
+7) active MICROSTEP
+8) active SERVO
 P) show Pin wiring
 V) View configuration
 Q) Quit
+
 
 
 For Darlington Drive you can:
@@ -60,6 +76,7 @@ V) View configuration
 Q) Quit
 
 
+
 For H-Bridge Drive you can:
 ===========================================
    H BRIDGE drive
@@ -79,6 +96,7 @@ S) set Steps revolution
 P) show Pin wiring
 V) View configuration
 Q) Quit
+
 
 
 For Microstep Drive you can:
@@ -101,9 +119,22 @@ Q) Quit
 
 
 
-From Moving Menu you can:
+For Servo Drive you can:
 ===========================================
-   MOTOR MOVE
+   SERVO drive
+===========================================
+1) define PWM pin
+2) pulse Period time
+3) pulse Min time
+4) pulse Max time
+V) View configuration
+Q) Quit
+
+
+
+From Stepper Moving Menu you can:
+===========================================
+   STEPPER MOTOR MOVE
 ===========================================
 1) move one step
 2) move one grade
@@ -126,8 +157,30 @@ Q) Quit
 
 
 
+From Servo Moving Menu you can:
+===========================================
+   SERVO MOTOR MOVE
+===========================================
+1) goto     0 gradees
+2) goto    90 gradees
+3) goto   180 gradees
+4) goto number gradees
+5) move one grade forward
+6) move one grade backward
+7) move number gradees forward
+8) move number gradees backward
+I) Init motor
+H) set overHead
+R) Read gradees
+S) Stop motor
+V) View config
+Q) Quit
 
- For how to wiring the momtor you can use "show Pin wiring" menu choice.
+
+--------------------------
+STEPPER MOTOR WIRING
+--------------------------
+ For how to wiring the stepper motor you can use "show Pin wiring" menu choice.
 
 
    UNIPOLAR STEPPER MOTOR COILS - Step sequence: A1, B1, A2, B2
