@@ -11,7 +11,7 @@
 // --------------------------------------------------------------------------------------
 
 #define FIRMWARE_NAME                   "Motor Test"
-#define FIRMWARE_VERSION                "v0.20"
+#define FIRMWARE_VERSION                "v0.21"
 #define FIRMWARE_DATE                   "31/05/2024"
 #define FIRMWARE_AUTHOR                 "nicola sellitto"
 #define FIRMWARE_EMAIL                  "nicosellitto@yahoo.it"

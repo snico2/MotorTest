@@ -1,7 +1,7 @@
 /******************************************************************************************
  *  File:           MotorTest.ino
  *  Author:         Nicola Sellitto     nicosellitto@yahoo.it
- *  Version:        0.20
+ *  Version:        0.21
  *  Date:           31 may 2024
  *  Description:    Test Motor: Unipolar, Bipolar stepper motor & Servo
  *  Note:           Use a serial connection to 115200 and select menu options
@@ -40,8 +40,6 @@ uint16_t Overhead = 10;                             // time in us
 
 volatile uint32_t NumSteps;                         // Number of Stpes to move
 volatile bool     PulseHigh;
-volatile bool     PulseNew;
-
 
 char PrintBuffer[256];				                // Buffer per funzioni di Print
 const char* LineSeparator = "===========================================";
@@ -56,6 +54,7 @@ const char* LineSeparator = "===========================================";
  * 
  *****************************************************************************************/
 void IRAM_ATTR pulseTimer() {
+uint32_t ticksPulse;  
 uint8_t numPhase=3;
 
     switch (MotorDriver) {
@@ -80,14 +79,18 @@ uint8_t numPhase=3;
         case DRIVE_SERVO:
         	if (PulseHigh) {
 	            digitalWrite(Servo.pinPwm, HIGH);
-                timer1_write(Servo.ticksPulseHigh);
-                PulseNew = true;
+                ticksPulse = Servo.ticksPulseHigh;
             } else {
 	            digitalWrite(Servo.pinPwm, LOW);
-                timer1_write(Servo.ticksPulseLow);   	
+                ticksPulse = Servo.ticksPulseLow;
             }
+            #if defined ESP8266
+                timer1_write(ticksPulse);
+            #elif defined ESP32
+                timerAlarmWrite(PTimer, ticksPulse, true);
+            #endif
             PulseHigh = !PulseHigh;
-            return;
+            return;                                // Exit from ISR         
     }
 
     if (--NumSteps == 0) {
@@ -118,7 +121,7 @@ void setup() {
         timer1_attachInterrupt(pulseTimer);
         timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);
     #elif defined ESP32
-        PTimer = timerBegin(0, 16, true);                        // Counter UP (true)
+        PTimer = timerBegin(0, 16, true);                        // Prescale 16, Counter UP (true)
         timerAttachInterrupt(PTimer, &pulseTimer, true);  
     #endif
 }
@@ -878,8 +881,17 @@ uint32_t ticksPeriod;
 	Serial.println(PrintBuffer);
 
     PulseHigh = true;
-    timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);                               // 5 Ticks ogni 1 us
-    timer1_write(Servo.ticksPulseHigh);						                    // Start Timer	    
+    #if defined ESP8266
+        timer1_enable(TIM_DIV16, TIM_EDGE, TIM_LOOP);                               // 5 Ticks ogni 1 us
+        timer1_write(Servo.ticksPulseHigh);						                    // Start Timer	    
+    #elif defined ESP32
+        timerAlarmDisable(PTimer);                                  // abilitiamo il timer      
+        timerAlarmWrite(PTimer, Servo.ticksPulseHigh, true);
+        timerAlarmEnable(PTimer);                                   // abilitiamo il timer      
+        timerStart(PTimer);
+    #endif
+
+
 
 }
 
@@ -2497,12 +2509,19 @@ uint8_t c;                                        				// carattere digitato
 		i = 0;
 	    return RETURN_ESC;      								// ESC, annulla digitazione
 	}
-    if (c==13 && i>0 && tot >= min && tot <= max) {				// CR, check end
-    	*value = tot;
+    if (c==13) {
+        if (i>0 && tot >= min && tot <= max) {				    // CR, check valid for value
+    	    *value = tot;
+    		tot = 0;											// reset index
+	    	i = 0;
+	        Serial.println();
+	        return RETURN_VALUE;
+        }
+        // Invalid value
+		Serial.println(" - not valid value");
 		tot = 0;												// reset index
 		i = 0;
-	    Serial.println();
-	    return RETURN_VALUE;	    				
+	    return RETURN_ESC;      								// ESC, annulla digitazione
 	}
 
 	if (c >= '0' && c <= '9') {                 				// Pesa la cifra digitata
